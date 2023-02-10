@@ -1,0 +1,44 @@
+def is_valid(isbn):
+
+    #Remove any dashes from the string
+    dashless_isbn = isbn.replace( '-', '')
+    print ('Dashless ISBN: ', dashless_isbn) 
+
+    #Validate isbn lenght = 10
+    if len(dashless_isbn) != 10:
+        print('This ISBN is not valid: lenght is', len(dashless_isbn), ' instead of 10.')
+        return False
+    else:
+        print ('ISBN lenght is valid')
+
+    #Validate check character
+    check_character = dashless_isbn[-1]
+    if check_character is 'X' or check_character is 'x' or check_character.isdigit():
+        print ('Check character', check_character, 'is valid' )
+    else:
+        print ('This ISBN is not valid: check character', check_character, 'is not valid' )
+        return False
+     
+    total = 0
+    n = 10
+    
+    for i in range(9):
+        if dashless_isbn[i].isdigit():     #Validate that all other characters are digits
+            total = total + int(dashless_isbn[i]) * n
+            n = n - 1
+        else:
+            print ('This ISBN is not valid: character', dashless_isbn[i], 'is not a number' )
+            return False
+
+    if check_character == 'X' or check_character == 'x':
+        total = total + 10
+    else:
+        total = total + int(check_character)
+
+    if total %11 == 0: 
+        print('This ISBN is valid')
+        return True
+        
+    else:
+        print('This ISBN is not valid: total is', total)
+        return False
